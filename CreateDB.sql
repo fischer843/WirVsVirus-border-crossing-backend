@@ -1,4 +1,39 @@
+/**
+ * Autor of this SQL-Script
+ * Jens Fischer (fischer843@gmail.com)
+ * 
+ * Version 0.1  / 22.03.2010 at 18:30
+ * 		First check-in 
+ * 
+ * Version 0.2  / 22.03.2010 at 19:30
+ * 		- Add comment how to install extenstion  "uuid-ossp"
+ * 		- Replace wrong datatype NULL into UUID
+ */
 
+
+
+/**
+ * The "uuid-ossp" library enables you to generate UUID values server-side in Postgres.
+ * http://www.postgresql.org/docs/current/static/uuid-ossp.html
+ *
+ * The technique to install this library changed as of Postgres 9.1, because of the new Extension feature.
+ * Installing and uninstalling are now easier. I have an overview on my blog, but I'm posting the brief steps 
+ * here for posterity.
+ *
+ *
+ *
+ * To see what extensions are already installed in your Postgres, run this SQL:
+ * select * from pg_extension;
+ *
+ *
+ * To see if the "uuid-ossp" extension is available, run this SQL:
+ * select * from pg_available_extensions;
+ *
+ *****************************************************************************************************************
+ * To install/load the extension "uuid-ossp", run this SQL:
+ * CREATE EXTENSION "uuid-ossp";
+ *****************************************************************************************************************
+ */
 
 
 ------------------------------------------
@@ -157,7 +192,7 @@ Die Beamten-Daten müssen geschützt sein
 *****************************************/
 
 CREATE TABLE "public"."guard" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"firstname" VARCHAR(255),
 		"lastname" VARCHAR(255),
 		"street" VARCHAR(255),
@@ -233,7 +268,7 @@ gibt es zwei unterschiedliche Datumsfelder.
 ******************************************/
 
 CREATE TABLE "public"."tour2border" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"pkey_tour" UUID NOT NULL,
 		"pkey_border" UUID NOT NULL,
 		"approvedbyguard" UUID null,
@@ -253,9 +288,9 @@ geordnet.
 ******************************************/
 	
 CREATE TABLE "public"."carregistration" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"carregistration" VARCHAR(255),
-		"pkey_company" null
+		"pkey_company" UUID
 	);
 
 
@@ -273,7 +308,7 @@ Diese werden auch zum generieren des "Passier-"
 ******************************************/
 	
 CREATE TABLE "public"."formfield_value" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"pkey_tour" UUID NOT NULL,
 		"pkey_formtemplatefield" UUID NOT NULL,
 		"value" VARCHAR(255) NOT NULL
@@ -291,7 +326,7 @@ bezogen auf den spezifischen Grenzübetritt hinterlegt.
 ******************************************/
 	
 CREATE TABLE "public"."formtemplate" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"name" UUID NOT NULL,
 		"pkey_border" UUID NOT NULL
 	);
@@ -314,7 +349,7 @@ Frankreich -> Deutschland: Es wird Formular Form_FD benötigt.
 ******************************************/
 	
 CREATE TABLE "public"."border" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"ridefrom" UUID NOT NULL,
 		"rideto" UUID NOT NULL
 	);
@@ -337,7 +372,7 @@ durchgeführten Gesundheitschecks gespeichert.
 ******************************************/
 	
 CREATE TABLE "public"."healthcheck" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"pkey_driver" UUID NOT NULL,
 		"pkey_guard" UUID NOT NULL,
 		"due" INFORMATION_SCHEMA.TIME_STAMP NOT NULL,
@@ -354,7 +389,7 @@ Fahrers gespeichert.
 ******************************************/
 	
 CREATE TABLE "public"."driver" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"borderguard" null DEFAULT uuid_generate_v4(),
 		"firstname" VARCHAR(255),
 		"lastname" VARCHAR(255),
@@ -378,7 +413,7 @@ Firmen gespeichert.
 ******************************************/
 
 CREATE TABLE "public"."company" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"companyname" VARCHAR(255),
 		"street" VARCHAR(255),
 		"place" VARCHAR(255),
@@ -397,9 +432,9 @@ Firmen zugeordnet
 
 ******************************************/	
 CREATE TABLE "public"."driver2company" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
-		"driver_id" null,
-		"company_id" null
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
+		"driver_id" UUID,
+		"company_id" UUID
 	);
 
 
@@ -413,7 +448,7 @@ Tour zugeordnet
 ******************************************/	
 	
 CREATE TABLE "public"."driver2tour" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"pkey_driver" UUID NOT NULL,
 		"pkey_tour" UUID NOT NULL,
 		"pkey_carregistration" UUID NOT NULL
@@ -442,7 +477,7 @@ punkt angelegt.
 ******************************************/	
 		
 CREATE TABLE "public"."tour" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"start_date" DATE,
 		"end_date" DATE
 	);
@@ -458,7 +493,7 @@ punkt angelegt.
 ******************************************/	
 	
 CREATE TABLE "public"."country" (
-		"pkey" null DEFAULT uuid_generate_v4() NOT NULL,
+		"pkey" UUID DEFAULT uuid_generate_v4() NOT NULL,
 		"countryname" VARCHAR(255) NOT NULL
 	);
 
